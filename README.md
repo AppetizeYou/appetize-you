@@ -62,21 +62,11 @@ The target audiences of *Appetize You* would be:
 
 ## **Data Flow Diagram (DFD)**
 
-![Index](./docs/Index.png)
-![Index tablet](./docs/Index_tablet.png)
-![Recipe searching](./docs/Recipe_searching.png)
-![Recipe searching tablet](./docs/Recipe_searching_tablet.png)
-![Recipe detail author](./docs/Recipe_detail_author.png)
-![Recipe detail viewer](./docs/Recipe_detail_viewer.png)
-![Create post](./docs/Create_post.png)
-![Edit post](./docs/Edit_post.png)
-![Sign up](./docs/Sign_up.png)
-![Sign in](./docs/Sign_in.png)
-![Profile](./docs/Profile.png)
-![Message box](./docs/Message_box.png)
-![Contact](./docs/Contact.png)
+![Data Flow Diagram](./docs/Data_Flow_Diagram.png)
 
 ## **Application Architecture Diagram (AAD)**
+
+![Application Architecture Diagram](./docs/Application_Architecture_Diagram.png)
 
 ## **User Stories**
 
@@ -93,4 +83,44 @@ The target audiences of *Appetize You* would be:
 
 ## **Wireframes**
 
+![Index](./docs/Index.png)
+
+
+![Index tablet](./docs/Index_tablet.png)
+
+
+![Recipe searching](./docs/Recipe_searching.png)
+
+
+![Recipe searching tablet](./docs/Recipe_searching_tablet.png)
+
+
+![Recipe detail author](./docs/Recipe_detail_author.png)
+
+
+![Recipe detail viewer](./docs/Recipe_detail_viewer.png)
+
+
+![Create post](./docs/Create_post.png)
+
+
+![Edit post](./docs/Edit_post.png)
+
+
+![Sign up](./docs/Sign_up.png)
+
+
+![Sign in](./docs/Sign_in.png)
+
+
+![Profile](./docs/Profile.png)
+
+
+![Message box](./docs/Message_box.png)
+
+
+![Contact](./docs/Contact.png)
+
 ## **Trello board**
+
+![Trello](./docs/Trello.jpg)
