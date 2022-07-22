@@ -28,13 +28,11 @@ const Login = () => {
         login(formData)
             .then((user) => {
                 dispatch({
-                    type: "setUsername",
-                    data: user.username,
-                });
-
-                dispatch({
-                    type: "setToken",
-                    data: user.jwt,
+                    type: "setUser",
+                    data: {
+                        username: user.username,
+                        token: user.jwt,
+                    },
                 });
             })
             .catch((error) => console.log(error));

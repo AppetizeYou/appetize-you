@@ -1,18 +1,11 @@
 const reducer = (state, action) => {
     switch (action.type) {
-        case "setUsername":
-            sessionStorage.setItem("username", action.data);
-            console.log(sessionStorage.getItem("username"));
+        case "setUser":
+            sessionStorage.setItem("user", JSON.stringify(action.data));
+
             return {
                 ...state,
-                username: action.data,
-            };
-        case "setToken":
-            sessionStorage.setItem("token", action.data);
-            console.log(sessionStorage.getItem("token"));
-            return {
-                ...state,
-                token: action.data,
+                user: action.data,
             };
         default:
             return state;

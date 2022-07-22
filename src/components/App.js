@@ -13,8 +13,7 @@ import { Context } from "../utilities/context";
 
 const App = () => {
     const initialState = {
-        username: sessionStorage.getItem("username") || null,
-        token: sessionStorage.getItem("token") || null,
+        user: JSON.parse(sessionStorage.getItem("user")) || null,
     };
 
     const [store, dispatch] = useReducer(reducer, initialState);
