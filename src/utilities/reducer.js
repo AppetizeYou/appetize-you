@@ -1,7 +1,11 @@
 const reducer = (state, action) => {
     switch (action.type) {
         case "setUser":
-            sessionStorage.setItem("user", JSON.stringify(action.data));
+            if (action.data === null && sessionStorage.getItem("user")) {
+                sessionStorage.removeItem("user");
+            } else {
+                sessionStorage.setItem("user", JSON.stringify(action.data));
+            }
 
             return {
                 ...state,

@@ -5,6 +5,13 @@ const Navigation = () => {
     const { store, dispatch } = useGlobalState();
     const { user } = store;
 
+    const logout = () => {
+        dispatch({
+            type: "setUser",
+            data: null,
+        })
+    };
+
     return (
         <nav>
             <Link to="/">Appetize You</Link>
@@ -14,7 +21,9 @@ const Navigation = () => {
                     <>
                         {/* <Link to="/auth/">Messages</Link> */}
                         <Link to="/auth/profile">{user.username}</Link>
-                        <Link to="/">Log out</Link>
+                        <Link to="/" onClick={logout}>
+                            Log out
+                        </Link>
                     </>
                 ) : (
                     <>
