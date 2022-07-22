@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
+import { useGlobalState } from "../utilities/context";
 
 const Navigation = () => {
-    let loggedInUser = true;
+    const { store, dispatch } = useGlobalState();
+    const { username } = store;
 
     return (
         <nav>
             <Link to="/">Appetize You</Link>
             <div>
                 <Link to="/recipes">Recipes</Link>
-                {loggedInUser ? (
+                {username ? (
                     <>
                         {/* <Link to="/auth/">Messages</Link> */}
-                        <Link to="/auth/profile">Profile</Link>
-                        <Link to="/">Sign out</Link>
+                        <Link to="/auth/profile">{username}</Link>
+                        <Link to="/">Log out</Link>
                     </>
                 ) : (
                     <>
-                        <Link to="/auth/sign_in">Sign in</Link>
-                        <Link to="/auth/sign_up">Sign up</Link>
+                        <Link to="/auth/login">Log in</Link>
+                        <Link to="/auth/signup">Sign up</Link>
                     </>
                 )}
             </div>
