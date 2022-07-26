@@ -5,9 +5,9 @@ const AppetizeYouAPI = axios.create({
 });
 
 AppetizeYouAPI.interceptors.request.use((request) => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-        request.headers["Authorization"] = `Bearer ${token}`;
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (user && user.token) {
+        request.headers["Authorization"] = `Bearer ${user.token}`;
     }
 
     return request;
