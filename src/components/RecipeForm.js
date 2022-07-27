@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import getCategories from "../services/category";
 import { postRecipe } from "../services/recipe";
 
+import "./styles/RecipeForm.scss";
+
 const RecipeForm = () => {
     const navigate = useNavigate();
 
@@ -32,6 +34,7 @@ const RecipeForm = () => {
         cooking_method_category_id: 1,
         ingredients: [",,"],
         steps: [""],
+        // image: null,
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -113,6 +116,13 @@ const RecipeForm = () => {
         });
     };
 
+    // const handleImageData = (event) => {
+    //     setFormData({
+    //         ...formData,
+    //         [event.target.id]: event.target.files[0],
+    //     });
+    // };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -120,77 +130,87 @@ const RecipeForm = () => {
             navigate("/recipes");
 
             setFormData(initialFormData);
-        })
+        });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="title">Title</label>
-                <input type="text" id="title" name="title" value={formData.title} onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="serve">Serve</label>
-                <input type="number" min="1" max="10" id="serve" name="serve" value={formData.serve} onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="type_category_id">Type</label>
-                <select name="type_category_id" id="type_category_id" onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="occasion_category_id">Occasion</label>
-                <select name="occasion_category_id" id="occasion_category_id" onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="main_ingredient_category_id">Main Ingredient</label>
-                <select name="main_ingredient_category_id" id="main_ingredient_category_id" onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="cooking_method_category_id">Cooking Method</label>
-                <select name="cooking_method_category_id" id="cooking_method_category_id" onChange={handleFormData} />
-            </div>
-            <div>
-                <label htmlFor="ingredients">Ingredient</label>
-                <div id="ingredients">
-                    <button type="button" onClick={() => addIngredientFields()}>
-                        Add
-                    </button>
-                    {formData.ingredients.map((element, index) => (
-                        <div key={index}>
-                            <input type="text" name="name" id={`name${index}`} value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
-                            <input type="text" name="amount" id={`amount${index}`} value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
-                            <input type="text" name="unit" id={`unit${index}`} value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
-                            {index > 0 ? (
-                                <button type="button" onClick={() => removeIngredientField(index)}>
-                                    Remove
-                                </button>
-                            ) : null}
-                        </div>
-                    ))}
+        <div id="recipe-form-parent">
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="title">Title</label>
+                    <input type="text" id="title" name="title" value={formData.title} onChange={handleFormData} />
                 </div>
-            </div>
-            <div>
-                <label htmlFor="steps">Step</label>
-                <div id="steps">
-                    <button type="button" onClick={addStepField}>
-                        Add
-                    </button>
-                    {formData.steps.map((element, index) => (
-                        <div key={index}>
-                            <textarea name="step" id={`step${index}`} value={formData.steps[index]} onChange={(event) => handleStepFieldData(index, event)} />
-                            {index > 0 ? (
-                                <button type="button" onClick={() => removeStepField(index)}>
-                                    Remove
-                                </button>
-                            ) : null}
-                        </div>
-                    ))}
+                <div>
+                    <label htmlFor="serve">Serve</label>
+                    <input type="number" min="1" max="10" id="serve" name="serve" value={formData.serve} onChange={handleFormData} />
                 </div>
-            </div>
-            <div>
-                <button type="submit">SUBMIT</button>
-            </div>
-        </form>
+                <div>
+                    <label htmlFor="type_category_id">Type</label>
+                    <select name="type_category_id" id="type_category_id" onChange={handleFormData} />
+                </div>
+                <div>
+                    <label htmlFor="occasion_category_id">Occasion</label>
+                    <select name="occasion_category_id" id="occasion_category_id" onChange={handleFormData} />
+                </div>
+                <div>
+                    <label htmlFor="main_ingredient_category_id">Main Ingredient</label>
+                    <select name="main_ingredient_category_id" id="main_ingredient_category_id" onChange={handleFormData} />
+                </div>
+                <div>
+                    <label htmlFor="cooking_method_category_id">Cooking Method</label>
+                    <select name="cooking_method_category_id" id="cooking_method_category_id" onChange={handleFormData} />
+                </div>
+                <div>
+                    <label htmlFor="ingredients">Ingredient</label>
+                    <div id="ingredients">
+                        {formData.ingredients.map((element, index) => (
+                            <div key={index}>
+                                <input type="text" name="name" id={`name${index}`} value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <input type="text" name="amount" id={`amount${index}`} value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <input type="text" name="unit" id={`unit${index}`} value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                {index > 0 ? (
+                                    <button type="button" onClick={() => removeIngredientField(index)}>
+                                        Remove
+                                    </button>
+                                ) : null}
+                                {index === formData.ingredients.length - 1 ? (
+                                    <button type="button" onClick={() => addIngredientFields()}>
+                                        Add
+                                    </button>
+                                ) : null}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <label htmlFor="steps">Step</label>
+                    <div id="steps">
+                        {formData.steps.map((element, index) => (
+                            <div key={index}>
+                                <textarea name="step" id={`step${index}`} value={element} onChange={(event) => handleStepFieldData(index, event)} />
+                                {index > 0 ? (
+                                    <button type="button" onClick={() => removeStepField(index)}>
+                                        Remove
+                                    </button>
+                                ) : null}
+                                {index === formData.steps.length - 1 ? (
+                                    <button type="button" onClick={addStepField}>
+                                        Add
+                                    </button>
+                                ) : null}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                {/* <div>
+                    <label htmlFor="image">Image</label>
+                    <input type="file" name="image" id="image" accept="image/*" onChange={handleImageData} />
+                </div> */}
+                <div>
+                    <button type="submit">Post</button>
+                </div>
+            </form>
+        </div>
     );
 };
 

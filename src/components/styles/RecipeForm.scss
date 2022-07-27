@@ -1,0 +1,53 @@
+div#recipe-form-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form {
+        width: 60%;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    
+        &>div {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        div#ingredients {
+            display: flex;
+            flex-direction: column;
+
+            >div {
+                margin: 5px 0;
+
+                input {
+                    margin-right: 5px;
+                }
+            }
+            
+            button:not(:last-child) {
+                margin-right: 5px;
+            }
+        }
+
+        div#steps {
+            >div {
+                margin: 5px 0;
+
+                textarea {
+                    margin-right: 5px;
+                    width: 400px;
+                    height: 80px;
+                    resize: none;
+                }
+            }
+            
+            button:not(:last-child) {
+                margin-right: 5px;
+            }
+        }
+    }
+}

@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteAccount, getAccount, updateAccount } from "../services/authentication";
 import { useGlobalState } from "../utilities/context";
+
+import "./styles/Profile.scss";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -36,26 +40,6 @@ const Profile = () => {
         // eslint-disable-next-line
     }, []);
 
-    const handleDeleteAccountButton = (event) => {
-        event.preventDefault();
-
-        let choice = confirm("Are you sure?");
-        if (choice === true) {
-            deleteAccount()
-            .then((data) => {
-                dispatch({
-                    type: "setUser",
-                    data: null,
-                });
-
-                navigate("/");
-            })
-            .catch((error) => console.log(error));
-        } else {
-
-        }
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -68,12 +52,44 @@ const Profile = () => {
                         token: user.jwt,
                     },
                 });
+
+                navigate("/");
             })
             .catch((error) => console.log(error));
     };
 
+    const handleDeleteAccountButton = (event) => {
+        event.preventDefault();
+
+        confirmAlert({
+            title: "Confirm to delete account",
+            message: "Are you sure to delete your account?",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: () => {
+                        deleteAccount()
+                            .then((data) => {
+                                dispatch({
+                                    type: "setUser",
+                                    data: null,
+                                });
+
+                                navigate("/");
+                            })
+                            .catch((error) => console.log(error));
+                    },
+                },
+                {
+                    label: "No",
+                    onClick: null,
+                },
+            ],
+        });
+    };
+
     return (
-        <div>
+        <div id="profile-form-parent">
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email</label>

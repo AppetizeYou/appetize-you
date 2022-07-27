@@ -1,7 +1,7 @@
 const InvalidPage = () => {
     return (
         <div>
-            <h1>INVALID PAGE</h1>
+            <h1>404 Error - Page not found!</h1>
         </div>
     );
 };

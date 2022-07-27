@@ -3,6 +3,8 @@ import { useState } from "react";
 import { login } from "../services/authentication";
 import { Link, useNavigate } from "react-router-dom";
 
+import "./styles/LoginForm.scss";
+
 const LoginForm = () => {
     const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ const LoginForm = () => {
     };
 
     return (
-        <div>
+        <div id="login-form-parent">
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email</label>
@@ -57,10 +59,7 @@ const LoginForm = () => {
                     <button type="submit">Login</button>
                 </div>
             </form>
-            Or
-            <div>
-                <Link to="/auth/signup">Sign up</Link>
-            </div>
+            <Link to="/auth/signup">Sign up</Link>
         </div>
     );
 };

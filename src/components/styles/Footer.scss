@@ -1,0 +1,31 @@
+footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    >div#links {
+        margin: 10px 0;
+        display: flex;
+
+        a {
+            &:not(:last-child)::after {
+                margin: 0 10px;
+                content: "|";
+            }
+        }
+    }
+
+    div#copyright {
+        margin: 10px 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+
+        &:visited {
+            color: black;
+        }
+    }
+}

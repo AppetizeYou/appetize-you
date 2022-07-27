@@ -12,4 +12,10 @@ async function getRecipe(id) {
     return response.data;
 }
 
-export { postRecipe, getRecipe };
+async function updateRecipe(id, data) {
+    const response = await AppetizeYouAPI.put(`recipes/${id}`, data);
+
+    return response.data;
+}
+
+export { postRecipe, getRecipe, updateRecipe };
