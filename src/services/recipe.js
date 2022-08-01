@@ -1,5 +1,11 @@
 import AppetizeYouAPI from "../config/api";
 
+async function getRecipes() {
+    const response = await AppetizeYouAPI.get("recipes/");
+
+    return response.data;
+}
+
 async function postRecipe(data) {
     const response = await AppetizeYouAPI.post("recipes/", data);
 
@@ -18,4 +24,4 @@ async function updateRecipe(id, data) {
     return response.data;
 }
 
-export { postRecipe, getRecipe, updateRecipe };
+export { getRecipes, postRecipe, getRecipe, updateRecipe };

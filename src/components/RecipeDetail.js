@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getRecipe } from "../services/recipe";
 import { useGlobalState } from "../utilities/context";
+import images from "../utilities/images";
+import Ingredients from "./Ingredients";
 import InvalidPage from "./InvalidPage";
+import Reviews from "./Reviews";
+import Steps from "./Steps";
 
 const RecipeDetail = () => {
+    const params = useParams();
+
     const navigate = useNavigate();
 
     const { store } = useGlobalState();
     const { user } = store;
-
-    const params = useParams();
 
     const [recipe, setRecipe] = useState(null);
 
@@ -18,18 +22,14 @@ const RecipeDetail = () => {
         getRecipe(params.id)
             .then((data) => {
                 setRecipe(data);
+
+                console.log(data);
             })
             .catch((error) => {
                 console.log(error);
             });
         // eslint-disable-next-line
-    }, [params.id]);
-
-    const separateIngredient = (ingredient) => {
-        let [name, amount, unit] = ingredient.split(",");
-
-        return { name, amount, unit };
-    };
+    }, []);
 
     const handleEdit = (event) => {
         navigate(`/recipes/${params.id}/edit`);
@@ -40,35 +40,23 @@ const RecipeDetail = () => {
             {recipe ? (
                 <>
                     <div>{recipe.title}</div>
-                    <div>{recipe.author}</div>
+                    <div>
+                        <img src={recipe.image_url || images.default} alt={recipe.title} />
+                    </div>
+                    <div>{recipe.author.username}</div>
                     <div>
                         {recipe.created_at} (Updated: {recipe.updated_at})
                     </div>
                     <div>
                         <div>Ingredients</div>
                         <ul>
-                            {recipe.ingredients &&
-                                recipe.ingredients.map((ingredient, index) => (
-                                    <li key={index}>
-                                        <div>{separateIngredient(ingredient).name}</div>
-                                        <div>{separateIngredient(ingredient).amount}</div>
-                                        <div>{separateIngredient(ingredient).unit}</div>
-                                    </li>
-                                ))}
+                            <Ingredients ingredients={recipe.ingredients} />
                         </ul>
                     </div>
                     <div>
                         <div>Steps</div>
                         <ul>
-                            {recipe.steps &&
-                                recipe.steps.map((step, index) => (
-                                    <li key={index}>
-                                        <div>
-                                            <div>Step {index + 1}</div>
-                                            <div>{step}</div>
-                                        </div>
-                                    </li>
-                                ))}
+                            <Steps steps={recipe.steps} />
                         </ul>
                     </div>
                     <div>
@@ -78,6 +66,9 @@ const RecipeDetail = () => {
                                     Edit
                                 </button>
                             ) : null)}
+                    </div>
+                    <div>
+                        <Reviews id={params.id} />
                     </div>
                 </>
             ) : (

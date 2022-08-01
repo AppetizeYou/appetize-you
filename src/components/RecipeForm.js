@@ -34,7 +34,7 @@ const RecipeForm = () => {
         cooking_method_category_id: 1,
         ingredients: [",,"],
         steps: [""],
-        // image: null,
+        image: null,
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -116,21 +116,34 @@ const RecipeForm = () => {
         });
     };
 
-    // const handleImageData = (event) => {
-    //     setFormData({
-    //         ...formData,
-    //         [event.target.id]: event.target.files[0],
-    //     });
-    // };
+    const handleImageData = (event) => {
+        setFormData({
+            ...formData,
+            [event.target.id]: event.target.files[0],
+        });
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        postRecipe(formData).then(() => {
-            navigate("/recipes");
+        let formDataObject = new FormData();
+        for (let key in formData) {
+            const data = formData[key];
+            if (key === "ingredients" || key === "steps") {
+                for (let i = 0; i < data.length; i++) {
+                    formDataObject.append(`${key}[]`, data[i]);
+                }
+            } else {
+                formDataObject.append(key, data);
+            }
+        }
 
-            setFormData(initialFormData);
-        });
+        postRecipe(formDataObject)
+            .then(() => {
+                navigate("/recipes");
+                setFormData(initialFormData);
+            })
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -202,10 +215,10 @@ const RecipeForm = () => {
                         ))}
                     </div>
                 </div>
-                {/* <div>
+                <div>
                     <label htmlFor="image">Image</label>
                     <input type="file" name="image" id="image" accept="image/*" onChange={handleImageData} />
-                </div> */}
+                </div>
                 <div>
                     <button type="submit">Post</button>
                 </div>
