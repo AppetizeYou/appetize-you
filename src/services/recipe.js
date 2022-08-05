@@ -6,6 +6,12 @@ async function getRecipes() {
     return response.data;
 }
 
+async function getMyRecipes() {
+    const response = await AppetizeYouAPI.get("recipes/my_post");
+
+    return response.data;
+}
+
 async function postRecipe(data) {
     const response = await AppetizeYouAPI.post("recipes/", data);
 
@@ -24,4 +30,4 @@ async function updateRecipe(id, data) {
     return response.data;
 }
 
-export { getRecipes, postRecipe, getRecipe, updateRecipe };
+export { getRecipes, getMyRecipes, postRecipe, getRecipe, updateRecipe };

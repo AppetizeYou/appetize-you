@@ -3,8 +3,9 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-div#root {
-    margin: 0;
+div#root>div {
+    max-width: 1536px;
+    margin: 20px auto;
     height: 100vh;
     display: flex;
     flex-direction: column;

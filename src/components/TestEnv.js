@@ -1,66 +1,149 @@
-import React from "react";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
 
-class TestEnv extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            formValues: [{ name: "", email: "" }],
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const pages = ["Products", "Pricing", "Blog"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-    handleChange(i, e) {
-        let formValues = this.state.formValues;
-        formValues[i][e.target.name] = e.target.value;
-        this.setState({ formValues });
-    }
+const ResponsiveAppBar = () => {
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    addFormFields() {
-        this.setState({
-            formValues: [...this.state.formValues, { name: "", email: "" }],
-        });
-    }
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
 
-    removeFormFields(i) {
-        let formValues = this.state.formValues;
-        formValues.splice(i, 1);
-        this.setState({ formValues });
-    }
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
 
-    handleSubmit(event) {
-        event.preventDefault();
-        alert(JSON.stringify(this.state.formValues));
-    }
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    {this.state.formValues.map((element, index) => (
-                        <div className="form-inline" key={index}>
-                            <label>Name</label>
-                            <input type="text" name="name" value={element.name || ""} onChange={(e) => this.handleChange(index, e)} />
-                            <label>Email</label>
-                            <input type="text" name="email" value={element.email || ""} onChange={(e) => this.handleChange(index, e)} />
-                            {index ? (
-                                <button type="button" className="button remove" onClick={() => this.removeFormFields(index)}>
-                                    Remove
-                                </button>
-                            ) : null}
-                        </div>
-                    ))}
-                </div>
-                <div className="button-section">
-                    <button className="button add" type="button" onClick={() => this.addFormFields()}>
-                        Add
-                    </button>
-                    <button className="button submit" type="submit">
-                        Submit
-                    </button>
-                </div>
-            </form>
-        );
-    }
-}
+    return (
+        <nav>
+            <AppBar position="static">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: "none", md: "flex" },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".3rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}>
+                            LOGO
+                        </Typography>
 
-export default TestEnv;
+                        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "left",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "left",
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: "block", md: "none" },
+                                }}>
+                                {pages.map((page) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                        <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href=""
+                            sx={{
+                                mr: 2,
+                                display: { xs: "flex", md: "none" },
+                                flexGrow: 1,
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".3rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}>
+                            LOGO
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                            {pages.map((page) => (
+                                <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
+                                    {page}
+                                </Button>
+                            ))}
+                        </Box>
+
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}>
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </nav>
+    );
+};
+export default ResponsiveAppBar;

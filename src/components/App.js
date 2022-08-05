@@ -13,9 +13,10 @@ import Footer from "./Footer";
 import { Context } from "../utilities/context";
 import InvalidPage from "./InvalidPage";
 import TestEnv from "./TestEnv";
-import EditRecipeForm from "./EditRecipeForm";
+import RecipeEditForm from "./RecipeEditForm";
 
 import "./styles/Main.scss";
+import MyPost from "./MyPost";
 
 const App = () => {
     const initialState = {
@@ -28,25 +29,28 @@ const App = () => {
         <Context.Provider value={{ store, dispatch }}>
             <BrowserRouter>
                 <Navigation />
-                <Routes>
-                    <Route path="/" element={<Landing />} />
-                    <Route path="recipes">
-                        <Route index element={<Recipes />} />
-                        <Route path="new" element={<RecipeForm />} />
-                        <Route path=":id">
-                            <Route index element={<RecipeDetail />} />
-                            <Route path="edit" element={<EditRecipeForm />} />
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Landing />} />
+                        <Route path="recipes">
+                            <Route index element={<Recipes />} />
+                            <Route path="new" element={<RecipeForm />} />
+                            <Route path=":id">
+                                <Route index element={<RecipeDetail />} />
+                                <Route path="edit" element={<RecipeEditForm />} />
+                            </Route>
+                            <Route path="mypost" element={<MyPost />} />
                         </Route>
-                    </Route>
-                    <Route path="auth">
-                        <Route index element={<Navigate to="login" replace />} />
-                        <Route path="login" element={<LoginForm />} />
-                        <Route path="signup" element={<SignUpForm />} />
-                        <Route path="profile" element={<Profile />} />
-                    </Route>
-                    <Route path="testenv" element={<TestEnv />} />
-                    <Route path="*" element={<InvalidPage />} />
-                </Routes>
+                        <Route path="auth">
+                            <Route index element={<Navigate to="login" replace />} />
+                            <Route path="login" element={<LoginForm />} />
+                            <Route path="signup" element={<SignUpForm />} />
+                            <Route path="profile" element={<Profile />} />
+                        </Route>
+                        <Route path="testenv" element={<TestEnv />} />
+                        <Route path="*" element={<InvalidPage />} />
+                    </Routes>
+                </div>
                 <Footer />
             </BrowserRouter>
         </Context.Provider>

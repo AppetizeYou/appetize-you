@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getRecipes } from "../services/recipe";
 import getCategories from "../services/category";
+import Recipe from "./Recipe";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
 const Recipes = () => {
     useEffect(() => {
@@ -55,7 +56,11 @@ const Recipes = () => {
     const formatCategoryName = (category) => {
         category = category.replaceAll("_", " ");
 
-        return category.charAt(0).toUpperCase() + category.slice(1);
+        return capitalize(category);
+    };
+
+    const capitalize = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
     const filterRecipe = (recipe) => {
@@ -71,26 +76,25 @@ const Recipes = () => {
 
     return (
         <div>
-            <div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 {Object.entries(categories).map(([key, category]) => (
-                    <div key={key}>
-                        <div>{formatCategoryName(key)}</div>
-                        <div style={{ display: "flex" }}>
+                    <FormControl key={key}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">{formatCategoryName(key)}</FormLabel>
+                        <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label">
                             {category.map((object, index) => (
                                 <div key={index}>
-                                    <input type="radio" id={object ? object.name : "all"} name={key} value={index} checked={setChecked(key, index)} onChange={handleSelectedCategories} />
-                                    <label htmlFor={object ? object.name : "all"}>{object ? object.name : "All"}</label>
+                                    <FormControlLabel control={<Radio />} label={object ? capitalize(object.name) : "All"} name={key} value={index} checked={setChecked(key, index)} onChange={handleSelectedCategories} />
                                 </div>
                             ))}
-                        </div>
-                    </div>
+                        </RadioGroup>
+                    </FormControl>
                 ))}
             </div>
-            <div>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
                 {recipes.map((recipe, index) =>
                     filterRecipe(recipe) ? null : (
-                        <div key={index}>
-                            <Link to={`${recipe.id}`}>{recipe.title}</Link>
+                        <div key={index} style={{ margin: "6px", minWidth: "345px" }}>
+                            <Recipe recipe={recipe} />
                         </div>
                     )
                 )}

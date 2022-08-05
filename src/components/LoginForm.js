@@ -1,9 +1,8 @@
 import { useGlobalState } from "../utilities/context";
 import { useState } from "react";
 import { login } from "../services/authentication";
-import { Link, useNavigate } from "react-router-dom";
-
-import "./styles/LoginForm.scss";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Button, FormLabel, Input, Link } from "@mui/material";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -41,25 +40,29 @@ const LoginForm = () => {
 
                 setFormData(initialFormData);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
-        <div id="login-form-parent">
+        <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
                 </div>
                 <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
                 </div>
                 <div>
-                    <button type="submit">Login</button>
+                    <Button type="submit">Login</Button>
                 </div>
             </form>
-            <Link to="/auth/signup">Sign up</Link>
+            <Link component={RouterLink} to="/auth/signup" underline="none">
+                Sign up
+            </Link>
         </div>
     );
 };

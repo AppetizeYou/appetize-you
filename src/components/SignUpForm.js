@@ -1,9 +1,8 @@
+import { Button, FormLabel, Input } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../services/authentication";
 import { useGlobalState } from "../utilities/context";
-
-import "./styles/SignUp.scss";
 
 const SignUpForm = () => {
     const navigate = useNavigate();
@@ -47,23 +46,23 @@ const SignUpForm = () => {
     };
 
     return (
-        <div id="signup-form-parent">
+        <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
                 </div>
                 <div>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Type your username" value={formData.username} onChange={handleFormData} />
+                    <FormLabel htmlFor="username">Username</FormLabel>
+                    <Input type="text" id="username" name="username" placeholder="Type your username" value={formData.username} onChange={handleFormData} />
                 </div>
                 <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
                 </div>
                 <div>
-                    <label htmlFor="password_confirmation">Password confirmation</label>
-                    <input
+                    <FormLabel htmlFor="password_confirmation">Password confirmation</FormLabel>
+                    <Input
                         type="password"
                         id="password_confirmation"
                         name="password_confirmation"
@@ -73,7 +72,7 @@ const SignUpForm = () => {
                     />
                 </div>
                 <div>
-                    <button type="submit">SIGN UP</button>
+                    <Button type="submit">SIGN UP</Button>
                 </div>
             </form>
         </div>

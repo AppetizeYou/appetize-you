@@ -1,21 +1,36 @@
 import { Button, FormLabel, Input, InputLabel, MenuItem, Select, TextareaAutosize } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import getCategories from "../services/category";
-import { postRecipe } from "../services/recipe";
+import { getRecipe, updateRecipe } from "../services/recipe";
 
-import "./styles/RecipeForm.scss";
+const RecipeEditForm = () => {
+    const params = useParams();
 
-const RecipeForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCategories()
-            .then((categories) => {
-                setCategories(categories);
+        getRecipe(params.id)
+            .then((recipe) => {
+                setFormData({
+                    title: recipe.title,
+                    serve: recipe.serve,
+                    type_category_id: recipe.type_category_id,
+                    occasion_category_id: recipe.occasion_category_id,
+                    main_ingredient_category_id: recipe.main_ingredient_category_id,
+                    cooking_method_category_id: recipe.cooking_method_category_id,
+                    ingredients: recipe.ingredients,
+                    steps: recipe.steps,
+                });
+
+                getCategories()
+                    .then((categories) => {
+                        setCategories(categories);
+                    })
+                    .catch((error) => console.log(error));
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [params.id]);
 
     const initialFormData = {
         title: "",
@@ -26,7 +41,7 @@ const RecipeForm = () => {
         cooking_method_category_id: 1,
         ingredients: [",,"],
         steps: [""],
-        image: null,
+        // image: null,
     };
 
     const [categories, setCategories] = useState(null);
@@ -36,7 +51,7 @@ const RecipeForm = () => {
         const id = `${category}_category_id`;
 
         return (
-            <Select labelId="demo-simple-select-helper-label" name={id} id={id} defaultValue={categories[`${category}_categories`][0].id} onChange={handleFormData}>
+            <Select labelId="demo-simple-select-helper-label" name={id} id={id} defaultValue={formData[id]} onChange={handleFormData}>
                 {categories[`${category}_categories`].map((element) => (
                     <MenuItem key={element.id} value={element.id} id={id}>
                         {element.name}
@@ -49,7 +64,7 @@ const RecipeForm = () => {
     const handleFormData = (event) => {
         setFormData({
             ...formData,
-            [event.target.id || event.target.name]: event.target.id === "title" ? event.target.value : parseInt(event.target.value),
+            [event.target.id]: event.target.id === "title" ? event.target.value : parseInt(event.target.value),
         });
     };
 
@@ -123,34 +138,14 @@ const RecipeForm = () => {
         });
     };
 
-    const handleImageData = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.id]: event.target.files[0],
-        });
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        let formDataObject = new FormData();
-        for (let key in formData) {
-            const data = formData[key];
-            if (key === "ingredients" || key === "steps") {
-                for (let i = 0; i < data.length; i++) {
-                    formDataObject.append(`${key}[]`, data[i]);
-                }
-            } else {
-                formDataObject.append(key, data);
-            }
-        }
+        updateRecipe(params.id, formData).then(() => {
+            navigate(`/recipes/${params.id}`);
 
-        postRecipe(formDataObject)
-            .then(() => {
-                navigate("/recipes");
-                setFormData(initialFormData);
-            })
-            .catch((error) => console.log(error));
+            setFormData(initialFormData);
+        });
     };
 
     return (
@@ -195,9 +190,9 @@ const RecipeForm = () => {
                     <div>
                         {formData.ingredients.map((element, index) => (
                             <div key={index} style={{ display: "flex" }}>
-                                <Input type="text" name="name" id={`name${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Name" value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
-                                <Input type="text" name="amount" id={`amount${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Amount" value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
-                                <Input type="text" name="unit" id={`unit${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Unit" value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="name" id={`name${index}`} sx={{ mb: "6px", mr: "6px" }} value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="amount" id={`amount${index}`} sx={{ mb: "6px", mr: "6px" }} value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="unit" id={`unit${index}`} sx={{ mb: "6px", mr: "6px" }} value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
                                 {index === formData.ingredients.length - 1 && (
                                     <Button type="button" onClick={() => addIngredientFields()}>
                                         Add
@@ -233,17 +228,11 @@ const RecipeForm = () => {
                     </div>
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="image">Image</FormLabel>
-                    <Input type="file" name="image" id="image" accept="image/*" onChange={handleImageData} />
-                </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <Button type="submit">
-                        Post
-                    </Button>
+                    <Button type="submit">Update</Button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default RecipeForm;
+export default RecipeEditForm;

@@ -22,8 +22,6 @@ const RecipeDetail = () => {
         getRecipe(params.id)
             .then((data) => {
                 setRecipe(data);
-
-                console.log(data);
             })
             .catch((error) => {
                 console.log(error);
@@ -32,7 +30,7 @@ const RecipeDetail = () => {
     }, []);
 
     const handleEdit = (event) => {
-        navigate(`/recipes/${params.id}/edit`);
+        navigate(`/recipes/${recipe.id}/edit`);
     };
 
     return (
@@ -61,19 +59,17 @@ const RecipeDetail = () => {
                     </div>
                     <div>
                         {user &&
-                            (user.username === recipe.author ? (
+                            (user.username === recipe.author.username ? (
                                 <button type="button" onClick={handleEdit}>
                                     Edit
                                 </button>
                             ) : null)}
                     </div>
                     <div>
-                        <Reviews id={params.id} />
+                        <Reviews id={recipe.id} author={recipe.author} />
                     </div>
                 </>
-            ) : (
-                <InvalidPage />
-            )}
+            ) : <InvalidPage />}
         </div>
     );
 };
