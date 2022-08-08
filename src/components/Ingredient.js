@@ -1,13 +1,13 @@
 const Ingredient = (params) => {
-    const { ingredient } = params;
+    const { ingredient, multiplier } = params;
 
     const [name, amount, unit] = ingredient.split(",");
 
     return (
         <>
-            <div>{name}</div>
-            <div>{amount}</div>
-            <div>{unit}</div>
+            <div style={{width: "60%"}}>{name}</div>
+            <div style={{width: "25%"}}>{parseInt(amount) * multiplier}</div>
+            <div style={{width: "15%"}}>{unit}</div>
         </>
     );
 };

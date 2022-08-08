@@ -1,8 +1,9 @@
-import { Button, FormLabel, Input, InputLabel, MenuItem, Select, TextareaAutosize } from "@mui/material";
+import { Button, FormLabel, Input, InputLabel, MenuItem, Select, TextareaAutosize, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import getCategories from "../services/category";
 import { postRecipe } from "../services/recipe";
+import ErrorAlert from "./ErrorAlert";
 
 import "./styles/RecipeForm.scss";
 
@@ -31,6 +32,7 @@ const RecipeForm = () => {
 
     const [categories, setCategories] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
+    const [errorCode, setErrorCode] = useState(null);
 
     const buildCategories = (category) => {
         const id = `${category}_category_id`;
@@ -130,74 +132,93 @@ const RecipeForm = () => {
         });
     };
 
+    const validateArray = (array, target) => {
+        for (const element of array) {
+            if (element === target) return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        let formDataObject = new FormData();
-        for (let key in formData) {
-            const data = formData[key];
-            if (key === "ingredients" || key === "steps") {
-                for (let i = 0; i < data.length; i++) {
-                    formDataObject.append(`${key}[]`, data[i]);
+        if (formData.title !== "" && formData.ingredients.length !== 0 && validateArray(formData.ingredients, ",,") && formData.steps.length !== 0 && validateArray(formData.steps, "") && formData.image !== null) {
+            let formDataObject = new FormData();
+            for (let key in formData) {
+                const data = formData[key];
+                if (key === "ingredients" || key === "steps") {
+                    for (let i = 0; i < data.length; i++) {
+                        formDataObject.append(`${key}[]`, data[i]);
+                    }
+                } else {
+                    formDataObject.append(key, data);
                 }
-            } else {
-                formDataObject.append(key, data);
             }
-        }
 
-        postRecipe(formDataObject)
-            .then(() => {
-                navigate("/recipes");
-                setFormData(initialFormData);
-            })
-            .catch((error) => console.log(error));
+            postRecipe(formDataObject)
+                .then(() => {
+                    navigate("/recipes");
+                    setFormData(initialFormData);
+                })
+                .catch((error) => console.log(error));
+        } else {
+            setErrorCode("fieldEmpty");
+        }
     };
 
     return (
         <div style={{ margin: "0 10px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="title">Title</FormLabel>
+                <ErrorAlert errorCode={errorCode} />
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="title">
+                        <Typography variant="body2">Title</Typography>
+                    </FormLabel>
                     <Input type="text" id="title" name="title" value={formData.title} onChange={handleFormData} />
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="serve">Serve</FormLabel>
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="serve">
+                        <Typography variant="body2">Serve</Typography>
+                    </FormLabel>
                     <Input type="number" min="1" max="10" id="serve" name="serve" value={formData.serve} onChange={handleFormData} />
                 </div>
                 <div>
-                    <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                    <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                         <InputLabel id="demo-simple-select-helper-label" htmlFor="type_category_id">
-                            Type
+                            <Typography variant="body2">Type</Typography>
                         </InputLabel>
                         {categories && buildCategories("type")}
                     </div>
-                    <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                    <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                         <InputLabel id="demo-simple-select-helper-label" htmlFor="occasion_category_id">
-                            Occasion
+                            <Typography variant="body2">Occasion</Typography>
                         </InputLabel>
                         {categories && buildCategories("occasion")}
                     </div>
-                    <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                    <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                         <InputLabel id="demo-simple-select-helper-label" htmlFor="main_ingredient_category_id">
-                            Main ingredient
+                            <Typography variant="body2">Main ingredient</Typography>
                         </InputLabel>
                         {categories && buildCategories("main_ingredient")}
                     </div>
-                    <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                    <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                         <InputLabel id="demo-simple-select-helper-label" htmlFor="cooking_method_category_id">
-                            Cooking method
+                            <Typography variant="body2">Cooking method</Typography>
                         </InputLabel>
                         {categories && buildCategories("cooking_method")}
                     </div>
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="ingredients">Ingredient</FormLabel>
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="ingredients">
+                        <Typography variant="body2">Ingredient</Typography>
+                    </FormLabel>
                     <div>
                         {formData.ingredients.map((element, index) => (
                             <div key={index} style={{ display: "flex" }}>
-                                <Input type="text" name="name" id={`name${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Name" value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
-                                <Input type="text" name="amount" id={`amount${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Amount" value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
-                                <Input type="text" name="unit" id={`unit${index}`} sx={{ mb: "6px", mr: "6px" }} placeholder="Unit" value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="name" id={`name${index}`} sx={{ mb: "10px", mr: "6px" }} placeholder="Name" value={separateIngredient(element).name} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="amount" id={`amount${index}`} sx={{ mb: "10px", mr: "6px" }} placeholder="Amount" value={separateIngredient(element).amount} onChange={(event) => handleIngredientFieldData(index, event)} />
+                                <Input type="text" name="unit" id={`unit${index}`} sx={{ mb: "10px", mr: "6px" }} placeholder="Unit" value={separateIngredient(element).unit} onChange={(event) => handleIngredientFieldData(index, event)} />
                                 {index === formData.ingredients.length - 1 && (
                                     <Button type="button" onClick={() => addIngredientFields()}>
                                         Add
@@ -212,12 +233,14 @@ const RecipeForm = () => {
                         ))}
                     </div>
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="steps">Step</FormLabel>
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="steps">
+                        <Typography variant="body2">Step</Typography>
+                    </FormLabel>
                     <div id="steps">
                         {formData.steps.map((element, index) => (
                             <div key={index} style={{ display: "flex" }}>
-                                <TextareaAutosize name="step" id={`step${index}`} style={{ minWidth: 300, margin: "0 6px 6px 0" }} aria-label="empty textarea" minRows={4} value={element} onChange={(event) => handleStepFieldData(index, event)} />
+                                <TextareaAutosize name="step" id={`step${index}`} style={{ minWidth: 400, margin: "0 6px 10px 0" }} aria-label="empty textarea" minRows={4} value={element} onChange={(event) => handleStepFieldData(index, event)} />
                                 {index === formData.steps.length - 1 && (
                                     <Button type="button" onClick={addStepField}>
                                         Add
@@ -232,14 +255,12 @@ const RecipeForm = () => {
                         ))}
                     </div>
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="image">Image</FormLabel>
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="image"><Typography variant="body2">Image</Typography></FormLabel>
                     <Input type="file" name="image" id="image" accept="image/*" onChange={handleImageData} />
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <Button type="submit">
-                        Post
-                    </Button>
+                <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+                    <Button type="submit">Post</Button>
                 </div>
             </form>
         </div>

@@ -1,32 +1,17 @@
 import { Button, FormLabel, Input, Link } from "@mui/material";
 import { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { deleteAccount, getAccount, updateAccount } from "../services/authentication";
 import { useGlobalState } from "../utilities/context";
+
+import "react-confirm-alert/src/react-confirm-alert.css";
+import ErrorAlert from "./ErrorAlert";
 
 const Profile = () => {
     const navigate = useNavigate();
 
     const { dispatch } = useGlobalState();
-
-    const initialFormData = {
-        email: "",
-        username: "",
-        current_password: "",
-        password: "",
-        password_confirmation: "",
-    };
-
-    const [formData, setFormData] = useState(initialFormData);
-
-    const handleFormData = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.id]: event.target.value,
-        });
-    };
 
     useEffect(() => {
         getAccount().then((data) =>
@@ -40,10 +25,33 @@ const Profile = () => {
         // eslint-disable-next-line
     }, []);
 
+    const initialFormData = {
+        email: "",
+        username: "",
+        password: "",
+        password_confirmation: "",
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
+    const [errorCode, setErrorCode] = useState(null);
+
+    const handleFormData = (event) => {
+        setFormData({
+            ...formData,
+            [event.target.id]: event.target.value,
+        });
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (formData.password === formData.password_confirmation) {
+        if (formData.password !== formData.password_confirmation) {
+            setErrorCode("passwordsNotSame");
+        } else if (formData.email === "" || formData.username === "" || formData.password === "" || formData.password_confirmation === "") {
+            console.log(formData);
+
+            setErrorCode("fieldEmpty");
+        } else {
             updateAccount(formData)
                 .then((user) => {
                     dispatch({
@@ -56,7 +64,9 @@ const Profile = () => {
 
                     navigate("/");
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     };
 
@@ -93,6 +103,7 @@ const Profile = () => {
     return (
         <div style={{ margin: "0 10px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
+                <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />

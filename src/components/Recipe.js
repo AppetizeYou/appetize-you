@@ -12,7 +12,7 @@ const Recipe = (params) => {
 
     return (
         <Card sx={{ maxWidth: 345 }}>
-            <CardHeader title={recipe.title} subheader={recipe.updated_at} />
+            <CardHeader title={recipe.title} titleTypographyProps={{variant: "h6"}} subheader={new Date(recipe.updated_at).toLocaleString("en-AU")} subheaderTypographyProps={{variant: "overline"}} />
             <CardMedia component="img" image={recipe.image_url} alt={recipe.title} height="140" />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">

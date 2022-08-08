@@ -6,7 +6,7 @@ const Steps = (params) => {
     return (
         <>
             {steps.map((step, index) => (
-                <li key={index}>
+                <li key={index} style={{ listStyle: "none", marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                     <Step step={step} index={index} />
                 </li>
             ))}

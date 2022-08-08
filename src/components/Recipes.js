@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getRecipes } from "../services/recipe";
 import getCategories from "../services/category";
 import Recipe from "./Recipe";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import { FormControl, FormLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 
 const Recipes = () => {
     useEffect(() => {
@@ -38,18 +38,17 @@ const Recipes = () => {
     const [selectedCategories, setSelectedCategories] = useState(initialSelectedCategories);
     const [recipes, setRecipes] = useState([]);
 
-    const setChecked = (key, index) => {
+    const setChecked = (key) => {
         const id = key.replace("categories", "category") + "_id";
 
-        return index === selectedCategories[id];
+        return selectedCategories[id];
     };
 
-    const handleSelectedCategories = (event) => {
+    const handleSelectedCategories = (event, value) => {
         const id = event.target.name.replace("categories", "category") + "_id";
-
         setSelectedCategories({
             ...selectedCategories,
-            [id]: parseInt(event.target.value),
+            [id]: parseInt(value),
         });
     };
 
@@ -76,17 +75,17 @@ const Recipes = () => {
 
     return (
         <div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                 {Object.entries(categories).map(([key, category]) => (
-                    <FormControl key={key}>
-                        <FormLabel id="demo-row-radio-buttons-group-label">{formatCategoryName(key)}</FormLabel>
-                        <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label">
+                    <FormControl key={key} style={{marginBottom: "10px"}}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">
+                            <Typography variant="subtitle2">{formatCategoryName(key)}</Typography>
+                        </FormLabel>
+                        <ToggleButtonGroup color="primary" value={setChecked(key)} exclusive onChange={handleSelectedCategories}>
                             {category.map((object, index) => (
-                                <div key={index}>
-                                    <FormControlLabel control={<Radio />} label={object ? capitalize(object.name) : "All"} name={key} value={index} checked={setChecked(key, index)} onChange={handleSelectedCategories} />
-                                </div>
+                                <ToggleButton key={index} name={key} value={index}>{object ? capitalize(object.name) : "All"}</ToggleButton>
                             ))}
-                        </RadioGroup>
+                        </ToggleButtonGroup>
                     </FormControl>
                 ))}
             </div>
