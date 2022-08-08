@@ -16,7 +16,8 @@ import TestEnv from "./TestEnv";
 import RecipeEditForm from "./RecipeEditForm";
 
 import "./styles/Main.scss";
-import MyPost from "./MyPost";
+import MyRecipes from "./MyRecipes";
+import AllRecipes from "./AllRecipes";
 
 const App = () => {
     const initialState = {
@@ -33,13 +34,13 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Landing />} />
                         <Route path="recipes">
-                            <Route index element={<Recipes />} />
+                            <Route index element={<AllRecipes />} />
                             <Route path="new" element={<RecipeForm />} />
                             <Route path=":id">
                                 <Route index element={<RecipeDetail />} />
                                 <Route path="edit" element={<RecipeEditForm />} />
                             </Route>
-                            <Route path="mypost" element={<MyPost />} />
+                            <Route path="myrecipes" element={<MyRecipes />} />
                         </Route>
                         <Route path="auth">
                             <Route index element={<Navigate to="login" replace />} />

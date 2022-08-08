@@ -2,7 +2,7 @@ import { useGlobalState } from "../utilities/context";
 import { useState } from "react";
 import { login } from "../services/authentication";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Button, FormLabel, Input, Link } from "@mui/material";
+import { Button, FormLabel, Input, Link, Typography } from "@mui/material";
 import ErrorAlert from "./ErrorAlert";
 
 const LoginForm = () => {
@@ -56,11 +56,11 @@ const LoginForm = () => {
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormLabel htmlFor="email"><Typography variant="body2">Email</Typography></FormLabel>
                     <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormLabel htmlFor="password"><Typography variant="body2">Password</Typography></FormLabel>
                     <Input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>

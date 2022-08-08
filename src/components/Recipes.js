@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { getRecipes } from "../services/recipe";
+import { getMyRecipes, getRecipes } from "../services/recipe";
 import getCategories from "../services/category";
 import Recipe from "./Recipe";
 import { FormControl, FormLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 
-const Recipes = () => {
+const Recipes = (params) => {
+    const { recipesFor } = params;
+
     useEffect(() => {
         getCategories()
             .then((categories) => {
@@ -18,13 +20,23 @@ const Recipes = () => {
                 console.log(error);
             });
 
-        getRecipes()
-            .then((recipes) => {
-                setRecipes(recipes);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (recipesFor == "all") {
+            getRecipes()
+                .then((recipes) => {
+                    setRecipes(recipes);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else if (recipesFor == "user") {
+            getMyRecipes()
+                .then((recipes) => {
+                    setRecipes(recipes);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }, []);
 
     const initialSelectedCategories = {
@@ -77,13 +89,15 @@ const Recipes = () => {
         <div>
             <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                 {Object.entries(categories).map(([key, category]) => (
-                    <FormControl key={key} style={{marginBottom: "10px"}}>
+                    <FormControl key={key} style={{ marginBottom: "10px" }}>
                         <FormLabel id="demo-row-radio-buttons-group-label">
                             <Typography variant="subtitle2">{formatCategoryName(key)}</Typography>
                         </FormLabel>
                         <ToggleButtonGroup color="primary" value={setChecked(key)} exclusive onChange={handleSelectedCategories}>
                             {category.map((object, index) => (
-                                <ToggleButton key={index} name={key} value={index}>{object ? capitalize(object.name) : "All"}</ToggleButton>
+                                <ToggleButton key={index} name={key} value={index}>
+                                    {object ? capitalize(object.name) : "All"}
+                                </ToggleButton>
                             ))}
                         </ToggleButtonGroup>
                     </FormControl>

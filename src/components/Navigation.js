@@ -153,8 +153,8 @@ const Navigation = () => {
                                     </MenuItem>
                                 )}
                                 {user && (
-                                    <MenuItem component={Link} to="/recipes/mypost" onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">My posts</Typography>
+                                    <MenuItem component={Link} to="/recipes/myrecipes" onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">My recipes</Typography>
                                     </MenuItem>
                                 )}
                                 {user && (

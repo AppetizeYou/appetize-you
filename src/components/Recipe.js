@@ -20,7 +20,7 @@ const Recipe = (params) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button component={Link} to={`${recipe.id}`} size="small">
+                <Button component={Link} to={`/recipes/${recipe.id}`} size="small">
                     Learn More
                 </Button>
             </CardActions>

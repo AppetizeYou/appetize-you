@@ -1,4 +1,4 @@
-import { Button, FormLabel, Input } from "@mui/material";
+import { Button, FormLabel, Input, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../services/authentication";
@@ -60,19 +60,19 @@ const SignUpForm = () => {
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormLabel htmlFor="email"><Typography variant="body2">Email</Typography></FormLabel>
                     <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="username">Username</FormLabel>
+                    <FormLabel htmlFor="username"><Typography variant="body2">Username</Typography></FormLabel>
                     <Input type="text" id="username" name="username" placeholder="Type your username" value={formData.username} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormLabel htmlFor="password"><Typography variant="body2">Password</Typography></FormLabel>
                     <Input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="password_confirmation">Password confirmation</FormLabel>
+                    <FormLabel htmlFor="password_confirmation"><Typography variant="body2">Password confirmation</Typography></FormLabel>
                     <Input type="password" id="password_confirmation" name="password_confirmation" placeholder="Type your password again" value={formData.password_confirmation} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
