@@ -3,9 +3,13 @@ import { getMyRecipes, getRecipes } from "../services/recipe";
 import getCategories from "../services/category";
 import Recipe from "./Recipe";
 import { FormControl, FormLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { useGlobalState } from "../utilities/context";
 
 const Recipes = (params) => {
     const { recipesFor } = params;
+
+    const { store } = useGlobalState();
+    const { user } = store;
 
     useEffect(() => {
         getCategories()
@@ -20,7 +24,7 @@ const Recipes = (params) => {
                 console.log(error);
             });
 
-        if (recipesFor == "all") {
+        if (recipesFor === "all") {
             getRecipes()
                 .then((recipes) => {
                     setRecipes(recipes);
@@ -28,7 +32,7 @@ const Recipes = (params) => {
                 .catch((error) => {
                     console.log(error);
                 });
-        } else if (recipesFor == "user") {
+        } else if (recipesFor === "user") {
             getMyRecipes()
                 .then((recipes) => {
                     setRecipes(recipes);
@@ -37,6 +41,8 @@ const Recipes = (params) => {
                     console.log(error);
                 });
         }
+
+        // eslint-disable-next-line
     }, []);
 
     const initialSelectedCategories = {
@@ -86,8 +92,11 @@ const Recipes = (params) => {
     };
 
     return (
-        <div>
-            <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
+        <div style={{ marginTop: "50px" }}>
+            <div style={{ margin: "0 20px 20px 20px", display: "flex", flexDirection: "column" }}>
+                <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
+                    {recipesFor === "user" && `${user.username}'s`} Recipe
+                </Typography>
                 {Object.entries(categories).map(([key, category]) => (
                     <FormControl key={key} style={{ marginBottom: "10px" }}>
                         <FormLabel id="demo-row-radio-buttons-group-label">

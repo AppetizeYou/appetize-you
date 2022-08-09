@@ -8,7 +8,7 @@ const ReviewForm = (params) => {
 
     const initialFormData = {
         comment: "",
-        rating: 0,
+        rating: 1,
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -18,6 +18,15 @@ const ReviewForm = (params) => {
             ...formData,
             [event.target.id]: event.target.value,
         });
+    };
+
+    const handleRating = (rating) => {
+        if (rating > 0) {
+            setFormData({
+                ...formData,
+                rating: rating,
+            });
+        }
     };
 
     const handleSubmit = (event) => {
@@ -32,12 +41,12 @@ const ReviewForm = (params) => {
                     .catch((error) => {
                         console.log(error);
                     });
+
+                setFormData(initialFormData);
             })
             .catch((error) => {
                 console.log(error);
             });
-
-        setFormData(initialFormData);
     };
 
     return (
@@ -47,7 +56,7 @@ const ReviewForm = (params) => {
                     <Typography variant="body2">Comment</Typography>
                 </FormLabel>
                 <TextareaAutosize name="comment" id="comment" style={{ minWidth: 300, margin: "0 6px 6px 0" }} aria-label="empty textarea" minRows={4} value={formData.comment} onChange={handleFormData} />
-                <ReactStars name="rating" id="rating" count={5} onChange={handleFormData} size={30} activeColor="#ffd700" />
+                <ReactStars name="rating" id="rating" count={5} size={30} activeColor="#ffd700" value={formData.rating} onChange={handleRating} />
                 <Button type="submit">Leave review</Button>
             </form>
         </div>

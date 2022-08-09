@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import getCategories from "../services/category";
 import { postRecipe } from "../services/recipe";
+import images from "../utilities/images";
 import ErrorAlert from "./ErrorAlert";
-
-import "./styles/RecipeForm.scss";
 
 const RecipeForm = () => {
     const navigate = useNavigate();
@@ -168,8 +167,12 @@ const RecipeForm = () => {
     };
 
     return (
-        <div style={{ margin: "0 10px" }}>
+        <div style={{ marginTop: "50px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
+                <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
+                    Post new recipe
+                </Typography>
+                <img src={images.default} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="title">
@@ -256,7 +259,9 @@ const RecipeForm = () => {
                     </div>
                 </div>
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="image"><Typography variant="body2">Image</Typography></FormLabel>
+                    <FormLabel htmlFor="image">
+                        <Typography variant="body2">Image</Typography>
+                    </FormLabel>
                     <Input type="file" name="image" id="image" accept="image/*" onChange={handleImageData} />
                 </div>
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>

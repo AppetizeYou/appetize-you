@@ -1,4 +1,4 @@
-import { Button, FormLabel, Input, Link } from "@mui/material";
+import { Button, FormLabel, Input, Link, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useGlobalState } from "../utilities/context";
 
 import "react-confirm-alert/src/react-confirm-alert.css";
 import ErrorAlert from "./ErrorAlert";
+import images from "../utilities/images";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -101,8 +102,12 @@ const Profile = () => {
     };
 
     return (
-        <div style={{ margin: "0 10px" }}>
+        <div style={{ marginTop: "50px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
+                <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
+                    Edit profile
+                </Typography>
+                <img src={images.default} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="email">Email</FormLabel>
@@ -123,9 +128,10 @@ const Profile = () => {
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
                     <Button type="submit">Update Account</Button>
                 </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <Typography variant="overline">Would you like to close your account?</Typography>
                     <Link component={RouterLink} to="/" underline="none" onClick={handleDeleteAccountButton}>
-                        Delete Account
+                        Close account
                     </Link>
                 </div>
             </form>

@@ -24,6 +24,8 @@ const RecipeEditForm = () => {
                     steps: recipe.steps,
                 });
 
+                setImage(recipe.image_url);
+
                 getCategories()
                     .then((categories) => {
                         setCategories(categories);
@@ -48,6 +50,7 @@ const RecipeEditForm = () => {
     const [categories, setCategories] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
     const [errorCode, seterrorCode] = useState(null);
+    const [image, setImage] = useState(null);
 
     const buildCategories = (category) => {
         const id = `${category}_category_id`;
@@ -165,6 +168,10 @@ const RecipeEditForm = () => {
     return (
         <div style={{ margin: "0 10px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
+                <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
+                    Edit recipe
+                </Typography>
+                <img src={image} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="title">

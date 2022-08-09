@@ -7,7 +7,6 @@ import { useGlobalState } from "../utilities/context";
 import images from "../utilities/images";
 import Ingredients from "./Ingredients";
 import InvalidPage from "./InvalidPage";
-import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
 import Steps from "./Steps";
 

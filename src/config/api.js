@@ -2,6 +2,7 @@ import axios from "axios";
 
 const AppetizeYouAPI = axios.create({
     baseURL: "http://localhost:3001",
+    // baseURL: "https://appetize-you-api.herokuapp.com/",
 });
 
 AppetizeYouAPI.interceptors.request.use((request) => {

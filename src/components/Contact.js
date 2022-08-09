@@ -1,23 +1,20 @@
-import { useGlobalState } from "../utilities/context";
+import { Button, FormLabel, Input, TextareaAutosize, Typography } from "@mui/material";
 import { useState } from "react";
-import { login } from "../services/authentication";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Button, FormLabel, Input, Link, Typography } from "@mui/material";
+import SuccessAlert from "./SuccessAlert";
 import ErrorAlert from "./ErrorAlert";
+import submitContact from "../services/contact";
 
 import images from "../utilities/images";
 
-const LoginForm = () => {
-    const navigate = useNavigate();
-
-    const { dispatch } = useGlobalState();
-
+const Contact = () => {
     const initialFormData = {
+        name: "",
         email: "",
-        password: "",
+        message: "",
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [successCode, setSuccessCode] = useState(null);
     const [errorCode, setErrorCode] = useState(null);
 
     const handleFormData = (event) => {
@@ -30,23 +27,15 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (formData.email !== "" && formData.password !== "") {
-            login(formData)
-                .then((user) => {
-                    dispatch({
-                        type: "setUser",
-                        data: {
-                            username: user.username,
-                            token: user.jwt,
-                        },
-                    });
-
-                    navigate("/");
+        if (formData.name !== "" && formData.email !== "" && formData.message !== "") {
+            submitContact(formData)
+                .then((data) => {
+                    setSuccessCode("contact");
 
                     setFormData(initialFormData);
                 })
                 .catch((error) => {
-                    setErrorCode("incorrectEmailAndPassword");
+                    console.log(error);
                 });
         } else {
             setErrorCode("fieldEmpty");
@@ -57,10 +46,17 @@ const LoginForm = () => {
         <div style={{ marginTop: "50px" }}>
             <form style={{ margin: "0 auto", maxWidth: "800px", display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
                 <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
-                    Login
+                    Contact
                 </Typography>
                 <img src={images.default} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
+                <SuccessAlert successCode={successCode} />
                 <ErrorAlert errorCode={errorCode} />
+                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
+                    <FormLabel htmlFor="name">
+                        <Typography variant="body2">Name</Typography>
+                    </FormLabel>
+                    <Input type="text" id="name" name="name" placeholder="Type your name" value={formData.name} onChange={handleFormData} />
+                </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="email">
                         <Typography variant="body2">Email</Typography>
@@ -68,23 +64,17 @@ const LoginForm = () => {
                     <Input type="email" id="email" name="email" placeholder="Type your email" value={formData.email} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column" }}>
-                    <FormLabel htmlFor="password">
-                        <Typography variant="body2">Password</Typography>
+                    <FormLabel htmlFor="message">
+                        <Typography variant="body2">Message</Typography>
                     </FormLabel>
-                    <Input type="password" id="password" name="password" placeholder="Type your password" value={formData.password} onChange={handleFormData} />
+                    <TextareaAutosize id="message" name="message" style={{ minWidth: 400, margin: "0 6px 10px 0" }} placeholder="Type your message" aria-label="empty textarea" minRows={6} value={formData.message} onChange={handleFormData} />
                 </div>
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
-                    <Button type="submit">Login</Button>
-                </div>
-                <div style={{ marginBottom: "10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <Typography variant="overline">Do not have an account yet?</Typography>
-                    <Link component={RouterLink} to="/auth/signup" underline="none">
-                        Sign up
-                    </Link>
+                    <Button type="submit">Submit</Button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default LoginForm;
+export default Contact;

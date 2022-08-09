@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import reducer from "../utilities/reducer";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
-import Recipes from "./Recipes";
 import RecipeForm from "./RecipeForm";
 import RecipeDetail from "./RecipeDetail";
 import LoginForm from "./LoginForm";
@@ -18,6 +17,7 @@ import RecipeEditForm from "./RecipeEditForm";
 import "./styles/Main.scss";
 import MyRecipes from "./MyRecipes";
 import AllRecipes from "./AllRecipes";
+import Contact from "./Contact";
 
 const App = () => {
     const initialState = {
@@ -48,6 +48,7 @@ const App = () => {
                             <Route path="signup" element={<SignUpForm />} />
                             <Route path="profile" element={<Profile />} />
                         </Route>
+                        <Route path="contact" element={<Contact />} />
                         <Route path="testenv" element={<TestEnv />} />
                         <Route path="*" element={<InvalidPage />} />
                     </Routes>

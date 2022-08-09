@@ -8,7 +8,7 @@ const Footer = () => {
             <div id="links">
                 <Link to="/">Home</Link>
                 <Link to="/">About</Link>
-                <Link to="/">Support</Link>
+                <Link to="contact">Contact</Link>
                 <Link to="/">Privacy Policy</Link>
                 <Link to="/">Terms of Services</Link>
             </div>

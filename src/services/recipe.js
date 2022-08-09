@@ -12,6 +12,18 @@ async function getMyRecipes() {
     return response.data;
 }
 
+async function getWeeklyRecipes() {
+    const response = await AppetizeYouAPI.get("recipes/weekly");
+
+    return response.data;
+}
+
+async function getMonthlyRecipes() {
+    const response = await AppetizeYouAPI.get("recipes/monthly");
+
+    return response.data;
+}
+
 async function postRecipe(data) {
     const response = await AppetizeYouAPI.post("recipes/", data);
 
@@ -30,4 +42,4 @@ async function updateRecipe(id, data) {
     return response.data;
 }
 
-export { getRecipes, getMyRecipes, postRecipe, getRecipe, updateRecipe };
+export { getRecipes, getMyRecipes, getWeeklyRecipes, getMonthlyRecipes, postRecipe, getRecipe, updateRecipe };
