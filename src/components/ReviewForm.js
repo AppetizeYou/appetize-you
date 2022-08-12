@@ -6,6 +6,7 @@ import ReactStars from "react-rating-stars-component";
 const ReviewForm = (params) => {
     const { id, setReviews } = params;
 
+    // initial review data
     const initialFormData = {
         comment: "",
         rating: 1,
@@ -13,6 +14,7 @@ const ReviewForm = (params) => {
 
     const [formData, setFormData] = useState(initialFormData);
 
+    // handdle review form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -20,6 +22,7 @@ const ReviewForm = (params) => {
         });
     };
 
+    // handle rating value
     const handleRating = (rating) => {
         if (rating > 0) {
             setFormData({
@@ -29,6 +32,7 @@ const ReviewForm = (params) => {
         }
     };
 
+    // submit review data
     const handleSubmit = (event) => {
         event.preventDefault();
 

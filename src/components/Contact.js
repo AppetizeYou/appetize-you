@@ -7,6 +7,7 @@ import submitContact from "../services/contact";
 import images from "../utilities/images";
 
 const Contact = () => {
+    // initial form data of contact
     const initialFormData = {
         name: "",
         email: "",
@@ -14,9 +15,11 @@ const Contact = () => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    // success and error code to display message on alert
     const [successCode, setSuccessCode] = useState(null);
     const [errorCode, setErrorCode] = useState(null);
 
+    // handle contact form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -24,6 +27,7 @@ const Contact = () => {
         });
     };
 
+    // submit form data to server
     const handleSubmit = (event) => {
         event.preventDefault();
 

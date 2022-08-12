@@ -4,12 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import getCategories from "../services/category";
 import { getRecipe, updateRecipe } from "../services/recipe";
 import ErrorAlert from "./ErrorAlert";
+import images from "../utilities/images";
 
 const RecipeEditForm = () => {
     const params = useParams();
 
     const navigate = useNavigate();
 
+    // load recipe and categories data on initial load
     useEffect(() => {
         getRecipe(params.id)
             .then((recipe) => {
@@ -35,6 +37,7 @@ const RecipeEditForm = () => {
             .catch((error) => console.log(error));
     }, [params.id]);
 
+    // initial form data
     const initialFormData = {
         title: "",
         serve: 1,
@@ -49,9 +52,11 @@ const RecipeEditForm = () => {
 
     const [categories, setCategories] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
+    // success and error code to display message on alert
     const [errorCode, seterrorCode] = useState(null);
     const [image, setImage] = useState(null);
 
+    // create select menu for each categories
     const buildCategories = (category) => {
         const id = `${category}_category_id`;
 
@@ -66,6 +71,7 @@ const RecipeEditForm = () => {
         );
     };
 
+    // handle form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -73,6 +79,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // handle ingredient fields data
     const handleIngredientFieldData = (index, event) => {
         const parent = event.target.parentElement;
         let { name, amount, unit } = separateIngredient(formData.ingredients[index]);
@@ -93,6 +100,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // add new ingredient fields
     const addIngredientFields = () => {
         setFormData({
             ...formData,
@@ -100,6 +108,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // remove ingredient field
     const removeIngredientField = (index) => {
         let ingredients = [...formData.ingredients];
         ingredients.splice(index, 1);
@@ -110,12 +119,14 @@ const RecipeEditForm = () => {
         });
     };
 
+    // separate ingredient data
     const separateIngredient = (ingredient) => {
         let [name, amount, unit] = ingredient.split(",");
 
         return { name, amount, unit };
     };
 
+    // handle step fields data
     const handleStepFieldData = (index, event) => {
         let steps = [...formData.steps];
         steps[index] = event.target.value;
@@ -126,6 +137,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // add new step field
     const addStepField = () => {
         setFormData({
             ...formData,
@@ -133,6 +145,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // remove step field
     const removeStepField = (index) => {
         let steps = [...formData.steps];
         steps.splice(index, 1);
@@ -143,6 +156,7 @@ const RecipeEditForm = () => {
         });
     };
 
+    // validation process for ingredients and steps data before submitting
     const validateArray = (array, target) => {
         for (const element of array) {
             if (element === target) return false;
@@ -151,6 +165,7 @@ const RecipeEditForm = () => {
         return true;
     };
 
+    // handle submit of recipe data
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -171,7 +186,7 @@ const RecipeEditForm = () => {
                 <Typography variant="h3" sx={{ fontFamily: "roboto", fontWeight: 700, letterSpacing: ".2rem", color: "inherit" }} style={{ marginBottom: "10px" }}>
                     Edit recipe
                 </Typography>
-                <img src={image} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
+                <img src={image || images.default} alt="default" style={{ height: "200px", marginBottom: "10px", objectFit: "cover" }} />
                 <ErrorAlert errorCode={errorCode} />
                 <div style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}>
                     <FormLabel htmlFor="title">

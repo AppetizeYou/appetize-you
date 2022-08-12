@@ -8,6 +8,7 @@ const SuccessAlert = (params) => {
         contact: <>Thank you for contacting us and we will get back to you as soon as possible!</>,
     };
 
+    // set the success message only when the page is first loaded
     useEffect(() => {
         setSuccessMessage(successList[successCode]);
         

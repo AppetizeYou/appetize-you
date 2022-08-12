@@ -13,6 +13,7 @@ const Reviews = (params) => {
 
     const [reviews, setReviews] = useState([]);
 
+    // load reviews for recipe
     useEffect(() => {
         getReviews(recipe.id)
             .then((data) => {
@@ -21,6 +22,8 @@ const Reviews = (params) => {
             .catch((error) => {
                 console.log(error);
             });
+
+        // eslint-disable-next-line
     }, []);
 
     return (

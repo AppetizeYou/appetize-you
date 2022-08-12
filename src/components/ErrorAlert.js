@@ -14,6 +14,7 @@ const ErrorAlert = (params) => {
         passwordsNotTheSame: <>Password and password confirmation must be same!</>,
     };
 
+    // set the error message only when the page is first loaded
     useEffect(() => {
         setErrorMessage(errorList[errorCode]);
         

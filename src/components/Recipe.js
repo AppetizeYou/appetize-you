@@ -6,14 +6,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import { Link } from "react-router-dom";
+import images from "../utilities/images";
 
 const Recipe = (params) => {
     const { recipe } = params;
 
     return (
         <Card sx={{ maxWidth: 345 }}>
-            <CardHeader title={recipe.title} titleTypographyProps={{variant: "h6"}} subheader={new Date(recipe.updated_at).toLocaleString("en-AU")} subheaderTypographyProps={{variant: "overline"}} />
-            <CardMedia component="img" image={recipe.image_url} alt={recipe.title} height="140" />
+            <CardHeader title={recipe.title} titleTypographyProps={{ variant: "h6" }} subheader={new Date(recipe.updated_at).toLocaleString("en-AU")} subheaderTypographyProps={{ variant: "overline" }} />
+            <CardMedia component="img" image={recipe.image_url || images.default} alt={recipe.title} height="140" />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
                     {recipe.author.username}

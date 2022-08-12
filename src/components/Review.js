@@ -6,6 +6,7 @@ import "./styles/Star.scss";
 const Review = (params) => {
     const { review } = params;
 
+    // render stars per each review
     const drawStars = (rating) => {
         let stars = [];
         for (let i = 0; i < rating; i++) {

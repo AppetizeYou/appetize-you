@@ -11,6 +11,7 @@ const SignUpForm = () => {
 
     const { dispatch } = useGlobalState();
 
+    // initial sign up form data
     const initialFormData = {
         email: "",
         username: "",
@@ -19,8 +20,10 @@ const SignUpForm = () => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    // success and error code to display message on alert
     const [errorCode, setErrorCode] = useState(null);
 
+    // handle form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -28,6 +31,7 @@ const SignUpForm = () => {
         });
     };
 
+    // submit form data
     const handleSubmit = (event) => {
         event.preventDefault();
 

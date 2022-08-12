@@ -10,8 +10,10 @@ import images from "../utilities/images";
 const LoginForm = () => {
     const navigate = useNavigate();
 
+    // to set user throughout the entire page
     const { dispatch } = useGlobalState();
 
+    // initial login form data
     const initialFormData = {
         email: "",
         password: "",
@@ -20,6 +22,7 @@ const LoginForm = () => {
     const [formData, setFormData] = useState(initialFormData);
     const [errorCode, setErrorCode] = useState(null);
 
+    // handle login form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -27,6 +30,7 @@ const LoginForm = () => {
         });
     };
 
+    // submit login form data to server
     const handleSubmit = (event) => {
         event.preventDefault();
 

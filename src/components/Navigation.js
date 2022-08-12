@@ -13,24 +13,31 @@ const Navigation = () => {
     const { store, dispatch } = useGlobalState();
     const { user } = store;
 
+    // anchor for generic navigation menu and user menu
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
+    // set anchor of menu and open
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+
+    // set anchor of menu and open
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
+    // close menu
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
+    // close menu
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+    // handle logout request
     const logout = (event) => {
         event.preventDefault();
 

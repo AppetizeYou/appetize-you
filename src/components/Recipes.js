@@ -11,6 +11,7 @@ const Recipes = (params) => {
     const { store } = useGlobalState();
     const { user } = store;
 
+    // load categories and recipes data
     useEffect(() => {
         getCategories()
             .then((categories) => {
@@ -45,6 +46,7 @@ const Recipes = (params) => {
         // eslint-disable-next-line
     }, []);
 
+    // selected categories
     const initialSelectedCategories = {
         type_category_id: 0,
         occasion_category_id: 0,
@@ -56,12 +58,14 @@ const Recipes = (params) => {
     const [selectedCategories, setSelectedCategories] = useState(initialSelectedCategories);
     const [recipes, setRecipes] = useState([]);
 
+    // set selected category from each button group
     const setChecked = (key) => {
         const id = key.replace("categories", "category") + "_id";
 
         return selectedCategories[id];
     };
 
+    // handle selected category data
     const handleSelectedCategories = (event, value) => {
         const id = event.target.name.replace("categories", "category") + "_id";
         setSelectedCategories({
@@ -70,16 +74,19 @@ const Recipes = (params) => {
         });
     };
 
+    // format category name
     const formatCategoryName = (category) => {
         category = category.replaceAll("_", " ");
 
         return capitalize(category);
     };
 
+    // capitalize string
     const capitalize = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
+    // filter recipe based on selected categories
     const filterRecipe = (recipe) => {
         const categoryList = ["type_category_id", "occasion_category_id", "main_ingredient_category_id", "cooking_method_category_id"];
         for (const category of categoryList) {

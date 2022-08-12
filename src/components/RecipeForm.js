@@ -9,6 +9,7 @@ import ErrorAlert from "./ErrorAlert";
 const RecipeForm = () => {
     const navigate = useNavigate();
 
+    // load categories data on initial load
     useEffect(() => {
         getCategories()
             .then((categories) => {
@@ -17,6 +18,7 @@ const RecipeForm = () => {
             .catch((error) => console.log(error));
     }, []);
 
+    // initial form data
     const initialFormData = {
         title: "",
         serve: 1,
@@ -31,8 +33,10 @@ const RecipeForm = () => {
 
     const [categories, setCategories] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
+    // success and error code to display message on alert
     const [errorCode, setErrorCode] = useState(null);
 
+    // create select menu for each categories
     const buildCategories = (category) => {
         const id = `${category}_category_id`;
 
@@ -47,6 +51,7 @@ const RecipeForm = () => {
         );
     };
 
+    // handle form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -54,6 +59,7 @@ const RecipeForm = () => {
         });
     };
 
+    // handle ingredient fields data
     const handleIngredientFieldData = (index, event) => {
         const parent = event.target.parentElement;
         let { name, amount, unit } = separateIngredient(formData.ingredients[index]);
@@ -74,6 +80,7 @@ const RecipeForm = () => {
         });
     };
 
+    // add new ingredient fields
     const addIngredientFields = () => {
         setFormData({
             ...formData,
@@ -81,6 +88,7 @@ const RecipeForm = () => {
         });
     };
 
+    // remove ingredient field
     const removeIngredientField = (index) => {
         let ingredients = [...formData.ingredients];
         ingredients.splice(index, 1);
@@ -91,12 +99,14 @@ const RecipeForm = () => {
         });
     };
 
+    // separate ingredient data
     const separateIngredient = (ingredient) => {
         let [name, amount, unit] = ingredient.split(",");
 
         return { name, amount, unit };
     };
 
+    // handle step fields data
     const handleStepFieldData = (index, event) => {
         let steps = [...formData.steps];
         steps[index] = event.target.value;
@@ -107,6 +117,7 @@ const RecipeForm = () => {
         });
     };
 
+    // add new step field
     const addStepField = () => {
         setFormData({
             ...formData,
@@ -114,6 +125,7 @@ const RecipeForm = () => {
         });
     };
 
+    // remove step field
     const removeStepField = (index) => {
         let steps = [...formData.steps];
         steps.splice(index, 1);
@@ -124,6 +136,7 @@ const RecipeForm = () => {
         });
     };
 
+    // handle image file upload
     const handleImageData = (event) => {
         setFormData({
             ...formData,
@@ -131,6 +144,7 @@ const RecipeForm = () => {
         });
     };
 
+    // validation process for ingredients and steps data before submitting
     const validateArray = (array, target) => {
         for (const element of array) {
             if (element === target) return false;
@@ -139,6 +153,7 @@ const RecipeForm = () => {
         return true;
     };
 
+    // handle submit of recipe data
     const handleSubmit = (event) => {
         event.preventDefault();
 

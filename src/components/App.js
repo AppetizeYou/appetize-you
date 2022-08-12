@@ -20,10 +20,11 @@ import AllRecipes from "./AllRecipes";
 import Contact from "./Contact";
 
 const App = () => {
+    // initial state of user data
     const initialState = {
         user: JSON.parse(sessionStorage.getItem("user")) || null,
     };
-
+    
     const [store, dispatch] = useReducer(reducer, initialState);
 
     return (

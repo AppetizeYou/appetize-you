@@ -4,6 +4,7 @@ import { getWeeklyRecipes, getMonthlyRecipes } from "../services/recipe";
 import Recipe from "./Recipe";
 
 const Landing = () => {
+    // Get weekly and monthly recipes on page initial load
     useEffect(() => {
         getWeeklyRecipes()
             .then((data) => {

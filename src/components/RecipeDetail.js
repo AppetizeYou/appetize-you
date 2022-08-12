@@ -2,6 +2,7 @@ import { Avatar, Button, CardHeader, Slider, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import getCategories from "../services/category";
 import { getRecipe } from "../services/recipe";
 import { useGlobalState } from "../utilities/context";
 import images from "../utilities/images";
@@ -18,9 +19,7 @@ const RecipeDetail = () => {
     const { store } = useGlobalState();
     const { user } = store;
 
-    const [recipe, setRecipe] = useState(null);
-    const [multiplier, setMultiplier] = useState(1);
-
+    // load recipe and categories data on page initial load
     useEffect(() => {
         getRecipe(params.id)
             .then((data) => {
@@ -30,13 +29,27 @@ const RecipeDetail = () => {
                 console.log(error);
             });
 
+        getCategories()
+            .then((categories) => {
+                setCategories(categories);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
         // eslint-disable-next-line
     }, []);
 
+    const [recipe, setRecipe] = useState(null);
+    const [categories, setCategories] = useState(null);
+    const [multiplier, setMultiplier] = useState(1);
+
+    // slider to modify ingredient amount
     const handleMultiplierChange = (event) => {
         setMultiplier(event.target.value);
     };
 
+    // navigate to recipe edit page
     const handleEdit = () => {
         navigate(`/recipes/${recipe.id}/edit`);
     };
@@ -50,7 +63,7 @@ const RecipeDetail = () => {
                             {recipe.title}
                         </Typography>
                         <Typography variant="button">
-                            <strong>Serves:</strong> {recipe.serve} {recipe.serve === 1 ? "person" : "people"}
+                            {recipe.serve} {recipe.serve === 1 ? "person" : "people"} | {categories && `${categories.type_categories[recipe.type_category_id - 1].name} | ${categories.occasion_categories[recipe.occasion_category_id - 1].name} | ${categories.main_ingredient_categories[recipe.main_ingredient_category_id - 1].name} | ${categories.cooking_method_categories[recipe.cooking_method_category_id - 1].name}`}
                         </Typography>
                         <div>
                             <img src={recipe.image_url || images.default} alt={recipe.title} style={{ maxWidth: "700px" }} />

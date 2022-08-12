@@ -14,6 +14,7 @@ const Profile = () => {
 
     const { dispatch } = useGlobalState();
 
+    // load user data on page load
     useEffect(() => {
         getAccount().then((data) =>
             setFormData({
@@ -26,6 +27,7 @@ const Profile = () => {
         // eslint-disable-next-line
     }, []);
 
+    // initial form data
     const initialFormData = {
         email: "",
         username: "",
@@ -34,8 +36,10 @@ const Profile = () => {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    // error code to display error message alert
     const [errorCode, setErrorCode] = useState(null);
 
+    // handle profile form data
     const handleFormData = (event) => {
         setFormData({
             ...formData,
@@ -43,6 +47,7 @@ const Profile = () => {
         });
     };
 
+    // submit form data to server
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -71,6 +76,7 @@ const Profile = () => {
         }
     };
 
+    // display alert box to ask account deletion
     const handleDeleteAccountButton = (event) => {
         event.preventDefault();
 

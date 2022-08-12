@@ -1,6 +1,7 @@
 const Ingredient = (params) => {
     const { ingredient, multiplier } = params;
 
+    // separate ingredient data into three different variables
     const [name, amount, unit] = ingredient.split(",");
 
     return (
